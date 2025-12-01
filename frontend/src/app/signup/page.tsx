@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { authAPI } from '@/services/api';
 import Link from 'next/link';
 import styles from './signup.module.css';
-
+//sign up sida. Låter användaren skapa ett konto med email och lösenord
 export default function SignupPage(){
+  //state för email, lösenord, bekräfta lösenord, error meddelande och loading status
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,6 +15,7 @@ export default function SignupPage(){
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
+    //valideringsfunktion för lösenord som kollar längd, siffra och specialtecken
     const validatePassword = (password: string): string | null => {
         if(password.length < 8){
             return "Lösenordet måste vara minst 8 tecken långt";
@@ -26,30 +28,34 @@ export default function SignupPage(){
       return 'Lösenordet måste innehålla minst ett specialtecken';
     }
 
-        return null;
+        return null; //inget error = lösenord är giltigt.
     }
-
+    //hantera formulär inskickning för att skapa konto
     const handleSubmit = async (e:React.FormEvent) =>{
-        e.preventDefault();
-        setError("");
+        e.preventDefault(); //förhindra default formulär beteende
+        setError(""); //resna tidgaere error meddelande
 
+        //validera lösenord
         const passwordError = validatePassword(password);
         if (passwordError){
             setError(passwordError);
             return;
         }
+        //kolla om lösenord och bekräfta lösenord matchar
         if (password !== confirmPassword){
             setError("Lösenorden matchar inte");
             return;
         }
-        setLoading(true);
+        setLoading(true); //sätt loading state
         try {
+          //anropar signup API med email och lösenord
             await authAPI.signup(email, password);
         router.push("/login");
         } catch (err: any) {
+          //om något går fel, sätt error meddelande
             setError(err.message || "Ett fel uppstod vid registrering");
         } finally {
-            setLoading(false);
+            setLoading(false); //ta bort loading state
         }
     }
 

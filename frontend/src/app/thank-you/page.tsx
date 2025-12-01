@@ -1,4 +1,4 @@
-
+"use client";
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -8,12 +8,14 @@ import styles from './thank-you.module.css';
 export default function ThankYouPage() {
   const { user, logout, isAuthenticated } = useAuth();
   const router = useRouter();
-
+  //om användaren inte är inloggad, redirecta till login sidan
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/login');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router]); //beroenden för useEffect
+
+  //om användaren inte är inloggad, returnera null för att undvika rendering
 
   if (!isAuthenticated) {
     return null;
