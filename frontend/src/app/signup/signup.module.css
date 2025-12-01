@@ -96,3 +96,8 @@
 .link{
     color: black
 }
+
+.inputGroup input::placeholder {
+    color: lightgray;  
+    opacity: 1;
+}

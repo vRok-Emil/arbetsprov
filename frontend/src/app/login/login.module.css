@@ -84,6 +84,11 @@
    
 }
 
+.inputGroup input::placeholder {
+    color: lightgray;  
+    opacity: 1;
+}
+
 .link a{
     color: #0070f3;
     text-decoration: none;
