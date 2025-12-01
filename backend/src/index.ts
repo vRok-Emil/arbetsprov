@@ -2,13 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database';
-import { 
-      createUser, 
-      getUserById,
-      getAllUsers,
-      deleteUser,
-      updateUser
-} from './routes/userRoutes';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 
@@ -20,11 +14,8 @@ app.use(cors());
 connectDB();
 const PORT = process.env.PORT || 3000;
 
-app.post("/signup", createUser);
-app.get("/users", getAllUsers);
-app.get("/users/:id", getUserById);
-app.delete("/users/:id", deleteUser);
-app.put("/users/:id", updateUser); // Changed from app.update to app.put
+app.use('/api', userRoutes);
+
 
 // Start server
 app.listen(PORT, () => {
